@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Riddles.Service.Services;
 using Riddles.Service.ResponseModels;
+using Riddles.DAL.Entities;
 
 namespace SokolovaWebApi.Controllers
 {
@@ -21,7 +22,7 @@ namespace SokolovaWebApi.Controllers
             userService = new UserService();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("LogIn/{login}/{password}")]
         public ApiResponse LogIn(string login, string password)
         {
@@ -39,13 +40,13 @@ namespace SokolovaWebApi.Controllers
         }
 
         [HttpPost]
-        [Route("SignUp/{login}/{password}")]
-        public ApiResponse SignUp(string login, string password)
+        [Route("SignUp")]
+        public ApiResponse SignUp([FromBody]User user)
         {
             ApiResponse response;
             try
             {
-                response = userService.SignUp(login, password);
+                response = userService.SignUp(user);
             }
             catch (Exception ex)
             {
@@ -72,9 +73,9 @@ namespace SokolovaWebApi.Controllers
             return userNames;
         }
 
-        [HttpPost]
-        [Route("ChangeActivityOfUser/{userId}/{isActive}")]
-        public bool ChangeActivityOfUser(int userId, bool isActive)
+        [HttpPut]
+        [Route("ChangeActivityOfUser/{userId}")]
+        public bool ChangeActivityOfUser(int userId, [FromBody]bool isActive)
         {
             try
             {
@@ -88,8 +89,8 @@ namespace SokolovaWebApi.Controllers
         }
 
         [HttpPost]
-        [Route("ChangeIsPlayingOfUser")]
-        public bool ChangeIsPlayingOfUser(int userId, bool isPlaying)
+        [Route("ChangeIsPlayingOfUser/{userId}")]
+        public bool ChangeIsPlayingOfUser(int userId, [FromBody]bool isPlaying)
         {
             try
             {

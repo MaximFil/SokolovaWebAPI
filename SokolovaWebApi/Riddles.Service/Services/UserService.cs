@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Riddles.Repository.Repositories;
+using Riddles.DAL.Entities;
 
 namespace Riddles.Service.Services
 {
@@ -23,15 +24,15 @@ namespace Riddles.Service.Services
                 var user = userRepository.GetUserByLoginAndPassword(login, password);
                 if (user == null)
                 {
-                    return new ResponseModels.ApiResponse(false, "Please enter valid credentials!");
+                    return new ResponseModels.ApiResponse(false, "Введите валидные логин и пароль!");
                 }
-                if (user != null && !user.IsActive)
+                if (user != null && user.IsActive)
                 {
-                    return new ResponseModels.ApiResponse(false, "The user with this credentials has already entered to game!");
+                    return new ResponseModels.ApiResponse(false, "Пользователь с такими данными уже вошёл в игру!");
                 }
                 else
                 {
-                    return new ResponseModels.ApiResponse(true, "Success", user);
+                    return new ResponseModels.ApiResponse(true, "Успешно!", user);
                 }
             }
             catch (Exception ex)
@@ -41,12 +42,12 @@ namespace Riddles.Service.Services
 
         }
 
-        public ResponseModels.ApiResponse SignUp(string login, string password)
+        public ResponseModels.ApiResponse SignUp(User user)
         {
             try
             {
-                var user = userRepository.CreateUser(login, password);
-                return new ResponseModels.ApiResponse(true, "User was succesfully created!", user);
+                var resultUser = userRepository.CreateUser(user);
+                return new ResponseModels.ApiResponse(true, "User was succesfully created!", resultUser);
             }
             catch (Exception ex)
             {

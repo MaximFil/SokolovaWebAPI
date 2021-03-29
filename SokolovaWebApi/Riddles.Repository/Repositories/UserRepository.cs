@@ -27,14 +27,13 @@ namespace Riddles.Repository.Repositories
             return GetUsers().FirstOrDefault(u => string.Equals(u.Name, login) && string.Equals(u.Password, password));
         }
 
-        public User CreateUser(string login, string password)
+        public User CreateUser(User user)
         {
             try
             {
-                var user = new User { Name = login, Password = password };
                 context.Users.Add(user);
                 context.SaveChanges();
-                return context.Users.LastOrDefault();
+                return context.Users.FirstOrDefault(u => u.Name == user.Name);
             }
             catch (Exception ex)
             {
