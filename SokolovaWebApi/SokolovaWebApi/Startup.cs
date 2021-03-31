@@ -27,7 +27,9 @@ namespace SokolovaWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSignalR();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options=>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             //services.AddSwaggerGen(c =>
             //{
             //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "SokolovaWebApi", Version = "v1" });
