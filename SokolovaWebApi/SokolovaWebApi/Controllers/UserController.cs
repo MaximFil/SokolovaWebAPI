@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Riddles.Service.Services;
 using Riddles.Service.ResponseModels;
 using Riddles.DAL.Entities;
+using System.Threading;
+using System.Security.Principal;
 
 namespace SokolovaWebApi.Controllers
 {
@@ -30,6 +32,7 @@ namespace SokolovaWebApi.Controllers
             try
             {
                 response = userService.LogIn(login, password);
+                UserPrincipal.UserName = login;
             }
             catch (Exception ex)
             {
@@ -47,6 +50,7 @@ namespace SokolovaWebApi.Controllers
             try
             {
                 response = userService.SignUp(user);
+                UserPrincipal.UserName = user.Name;
             }
             catch (Exception ex)
             {
@@ -101,6 +105,23 @@ namespace SokolovaWebApi.Controllers
             {
                 return false;
             }
+        }
+
+        [HttpGet]
+        [Route("GetFreeUserNames")]
+        public List<string> GetFreeUserNames()
+        {
+            List<string> userNames;
+            try
+            {
+                userNames = userService.GetFreeUserNames();
+            }
+            catch (Exception ex)
+            {
+                userNames = null;
+            }
+
+            return userNames;
         }
     }
 }

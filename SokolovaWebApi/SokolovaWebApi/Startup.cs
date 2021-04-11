@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SokolovaWebApi.SignalR;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
@@ -26,7 +27,13 @@ namespace SokolovaWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSignalR();
+            services.AddSignalR(hubOptions =>
+            {
+                hubOptions.ClientTimeoutInterval = TimeSpan.FromMinutes(1);
+                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(1);
+                hubOptions.EnableDetailedErrors = true;
+
+            });
             services.AddControllers().AddNewtonsoftJson(options=>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
@@ -55,7 +62,7 @@ namespace SokolovaWebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<SignalApp>("");
+                endpoints.MapHub<RiddlesHub>("/riddleshub");
             });
         }
     }
