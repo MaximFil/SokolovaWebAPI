@@ -92,35 +92,35 @@ namespace Riddles.Repository.Repositories
             }
         }
 
-        public string GetConnectionIdByUserName(string userName)
-        {
-            try
-            {
-                var user = GetUsers().FirstOrDefault(u => u.Name == userName);
-                return user?.Name;
-            }
-            catch(Exception ex)
-            {
-                throw;
-            }
-        }
+        //public string GetConnectionIdByUserName(string userName)
+        //{
+        //    try
+        //    {
+        //        var user = GetUsers().FirstOrDefault(u => u.Name == userName);
+        //        return user?.Name;
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public void UpdateConnectionIdByUserName(string userName, string connectionId)
-        {
-            try
-            {
-                var user = GetUsers().FirstOrDefault(u => u.Name == userName);
-                if (user != null && !string.Equals(user.ConnectionId, connectionId))
-                {
-                    user.ConnectionId = connectionId;
-                }
-                context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
+        //public void UpdateConnectionIdByUserName(string userName, string connectionId)
+        //{
+        //    try
+        //    {
+        //        var user = GetUsers().FirstOrDefault(u => u.Name == userName);
+        //        if (user != null && !string.Equals(user.ConnectionId, connectionId))
+        //        {
+        //            user.ConnectionId = connectionId;
+        //        }
+        //        context.SaveChanges();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //}
 
         public IEnumerable<string> GetFreeUserNames()
         {

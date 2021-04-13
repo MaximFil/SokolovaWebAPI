@@ -24,7 +24,7 @@ namespace Riddles.DAL.Entities
         [DefaultValue(typeof(bool), "false")]
         public bool IsPlaying { get; set; }
 
-        public string ConnectionId { get; set; }
+        //public string ConnectionId { get; set; }
 
         public List<XrefGameSessionUser> XrefGameSessionUsers { get; set; }
 

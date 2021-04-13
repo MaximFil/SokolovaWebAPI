@@ -24,8 +24,9 @@ namespace SokolovaWebApi.SignalR
         {
             try
             {
-                Context.GetHttpContext().User.AddIdentity(new GenericIdentity(userName));
-                userService.UpdateConnectionId(userName, Context.ConnectionId);
+                //Context.GetHttpContext().User.AddIdentity(new GenericIdentity(userName));
+                //userService.UpdateConnectionId(userName, Context.ConnectionId);
+                UserHubConfigure.UserConnections.Add(new UserConnection(userName, Context.ConnectionId));
                 userService.ChangeActivityByUserName(userName, true);
                 await Clients.All.SendAsync("Recieve", message);
             }
@@ -42,29 +43,37 @@ namespace SokolovaWebApi.SignalR
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            try
+            var userConfigure = UserHubConfigure.UserConnections.FirstOrDefault(u => string.Equals(u.ConnectionId, Context.ConnectionId));
+            if(userConfigure != null)
             {
-                var identityUserName = Context.User.Identities.FirstOrDefault(i => !string.IsNullOrWhiteSpace(i.Name))?.Name ?? string.Empty;
-                userService.ChangeActivityByUserName(identityUserName, false);
+                userService.ChangeActivityByUserName(userConfigure.UserName, false);
+                UserHubConfigure.UserConnections.Remove(userConfigure);
             }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-
+            
             await base.OnDisconnectedAsync(exception);
         }
 
         public async Task SendInvite(string userName)
         {
-            var connectionId = userService.GetConnectionId(userName);
-            await Clients.Client(connectionId).SendAsync("SendInvite", Thread.CurrentPrincipal.Identity.Name);
+            var guestConnectionId = UserHubConfigure.UserConnections.FirstOrDefault(u => string.Equals(u.UserName, userName))?.ConnectionId;
+            var hostUserName = UserHubConfigure.UserConnections.FirstOrDefault(u => string.Equals(u.ConnectionId, Context.ConnectionId))?.UserName ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(guestConnectionId))
+            {
+                throw new Exception("Не найден коннекшен данного пользователя!");
+            }
+
+            await Clients.Client(guestConnectionId).SendAsync("SendInvite", hostUserName);
+            return;
         }
 
         public async void AcceptInvite(string userName, bool accept)
         {
-            var connectionId = userService.GetConnectionId(userName);
+            var connectionId = UserHubConfigure.UserConnections.FirstOrDefault(u => string.Equals(u.UserName, userName))?.ConnectionId;
+            if (string.IsNullOrWhiteSpace(connectionId))
+            {
+                throw new Exception("Не найден коннекшен данного пользователя!");
+            }
+
             await Clients.Client(connectionId).SendAsync("AcceptInvite", accept);
         }
     }

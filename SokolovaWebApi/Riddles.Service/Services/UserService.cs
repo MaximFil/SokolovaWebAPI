@@ -103,29 +103,29 @@ namespace Riddles.Service.Services
             }
         }
 
-        public string GetConnectionId(string userName)
-        {
-            try
-            {
-                return userRepository.GetConnectionIdByUserName(userName);
-            }
-            catch(Exception ex)
-            {
-                throw;
-            }
-        }
+        //public string GetConnectionId(string userName)
+        //{
+        //    try
+        //    {
+        //        return userRepository.GetConnectionIdByUserName(userName);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public void UpdateConnectionId(string userName, string connectionId)
-        {
-            try
-            {
-                userRepository.UpdateConnectionIdByUserName(userName, connectionId);
-            }
-            catch(Exception ex)
-            {
-                throw;
-            }
-        }
+        //public void UpdateConnectionId(string userName, string connectionId)
+        //{
+        //    try
+        //    {
+        //        userRepository.UpdateConnectionIdByUserName(userName, connectionId);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //}
 
         public List<string> GetFreeUserNames()
         {
