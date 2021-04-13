@@ -32,7 +32,6 @@ namespace SokolovaWebApi.Controllers
             try
             {
                 response = userService.LogIn(login, password);
-                UserPrincipal.UserName = login;
             }
             catch (Exception ex)
             {
@@ -50,7 +49,6 @@ namespace SokolovaWebApi.Controllers
             try
             {
                 response = userService.SignUp(user);
-                UserPrincipal.UserName = user.Name;
             }
             catch (Exception ex)
             {

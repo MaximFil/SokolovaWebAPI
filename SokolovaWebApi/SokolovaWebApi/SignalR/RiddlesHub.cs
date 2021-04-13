@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Riddles.Service.Services;
 using System.Threading;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace SokolovaWebApi.SignalR
 {
@@ -18,21 +20,23 @@ namespace SokolovaWebApi.SignalR
             userService = new UserService();
         }
 
-        public async Task Send(string message)
-        {
-            await Clients.All.SendAsync("Recieve", message);
-        }
-
-        public override async Task OnConnectedAsync()
+        public async Task Send(string userName, string message)
         {
             try
             {
-                userService.UpdateConnectionId(UserPrincipal.UserName, Context.ConnectionId);
+                Context.GetHttpContext().User.AddIdentity(new GenericIdentity(userName));
+                userService.UpdateConnectionId(userName, Context.ConnectionId);
+                userService.ChangeActivityByUserName(userName, true);
+                await Clients.All.SendAsync("Recieve", message);
             }
             catch(Exception ex)
             {
                 throw;
             }
+        }
+
+        public override async Task OnConnectedAsync()
+        {
             await base.OnConnectedAsync();
         }
 
@@ -40,7 +44,8 @@ namespace SokolovaWebApi.SignalR
         {
             try
             {
-                userService.ChangeActivityByUserName(UserPrincipal.UserName, false);
+                var identityUserName = Context.User.Identities.FirstOrDefault(i => !string.IsNullOrWhiteSpace(i.Name))?.Name ?? string.Empty;
+                userService.ChangeActivityByUserName(identityUserName, false);
             }
             catch(Exception ex)
             {
@@ -54,7 +59,7 @@ namespace SokolovaWebApi.SignalR
         public async Task SendInvite(string userName)
         {
             var connectionId = userService.GetConnectionId(userName);
-            await Clients.Client(connectionId).SendAsync("SendInvite", UserPrincipal.UserName);
+            await Clients.Client(connectionId).SendAsync("SendInvite", Thread.CurrentPrincipal.Identity.Name);
         }
 
         public async void AcceptInvite(string userName, bool accept)

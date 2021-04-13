@@ -46,7 +46,7 @@ namespace Riddles.Repository.Repositories
             try
             {
                 var user = GetUsers().FirstOrDefault(u => u.Id == userId);
-                if (user != null)
+                if (user != null && user.IsActive != isActive)
                 {
                     user.IsActive = isActive;
                 }
@@ -63,7 +63,7 @@ namespace Riddles.Repository.Repositories
             try
             {
                 var user = GetUsers().FirstOrDefault(u => u.Id == userId);
-                if (user != null)
+                if (user != null && user.IsPlaying != isPlaying)
                 {
                     user.IsPlaying = isPlaying;
                 }
