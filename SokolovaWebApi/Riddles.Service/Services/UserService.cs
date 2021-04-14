@@ -127,11 +127,23 @@ namespace Riddles.Service.Services
         //    }
         //}
 
-        public List<string> GetFreeUserNames()
+        public Dictionary<string, int> GetFreeUserNames()
         {
             try
             {
-                return userRepository.GetFreeUserNames().ToList();
+                return userRepository.GetFreeUserNames();
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public int GetUserIdByName(string userName)
+        {
+            try
+            {
+                return userRepository.GetUserIdByUserName(userName);
             }
             catch(Exception ex)
             {

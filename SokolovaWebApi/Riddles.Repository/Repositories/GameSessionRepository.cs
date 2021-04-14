@@ -17,18 +17,29 @@ namespace Riddles.Repository.Repositories
             this.context = new ApplicationContext(ConnectionStringHelper.GetConnectionStringByName(ConnectionType.TestDB));
         }
 
-        //public GameSession AddGameSession(int firstUserId, int secondUserId, int levelId)
-        //{
-        //    try
-        //    {
-        //        context.GameSessions.Add(new GameSession() { LevelId = levelId, StartedDate = DateTime.Now, IsCompleted = false });
-        //        context.SaveChanges();
-        //        var gameSession = context.GameSessions.OrderByDescending(g => g.StartedDate).FirstOrDefault(g => !g.IsCompleted);
-        //        if(gameSession != null && gameSession.Id > 0)
-        //        {
-
-        //        }
-        //    }
-        //}
+        public GameSession AddGameSession(GameSession gameSession, int firstUserId, int secondUserId)
+        {
+            try
+            {
+                context.GameSessions.Add(gameSession);
+                context.SaveChanges();
+                gameSession = context.GameSessions.OrderByDescending(g => g.StartedDate).FirstOrDefault(g => !g.IsCompleted);
+                if (gameSession != null && gameSession.Id > 0)
+                {
+                    context.XrefGameSessionUsers.Add(new XrefGameSessionUser() { GameSessionID = gameSession.Id, UserId = firstUserId, TotalTime = 0, Points = 10 });
+                    context.XrefGameSessionUsers.Add(new XrefGameSessionUser() { GameSessionID = gameSession.Id, UserId = secondUserId, TotalTime = 0, Points = 10 });
+                    context.SaveChanges();
+                    return gameSession;
+                }
+                else
+                {
+                    throw new Exception("Игровая сессия не было создана!");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

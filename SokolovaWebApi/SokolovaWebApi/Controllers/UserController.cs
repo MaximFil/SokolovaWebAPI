@@ -107,9 +107,9 @@ namespace SokolovaWebApi.Controllers
 
         [HttpGet]
         [Route("GetFreeUserNames")]
-        public List<string> GetFreeUserNames()
+        public Dictionary<string, int> GetFreeUserNames()
         {
-            List<string> userNames;
+            Dictionary<string, int> userNames;
             try
             {
                 userNames = userService.GetFreeUserNames();

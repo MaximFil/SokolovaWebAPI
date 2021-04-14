@@ -122,11 +122,23 @@ namespace Riddles.Repository.Repositories
         //    }
         //}
 
-        public IEnumerable<string> GetFreeUserNames()
+        public Dictionary<string, int> GetFreeUserNames()
         {
             try
             {
-                return GetUsers().Where(u => u.IsActive && !u.IsPlaying).Select(u => u.Name);
+                return GetUsers().Where(u => u.IsActive && !u.IsPlaying).ToDictionary(u => u.Name, u => u.Id);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public int GetUserIdByUserName(string userName)
+        {
+            try
+            {
+                return GetUsers().FirstOrDefault(u => string.Equals(u.Name, userName)).Id;
             }
             catch(Exception ex)
             {
