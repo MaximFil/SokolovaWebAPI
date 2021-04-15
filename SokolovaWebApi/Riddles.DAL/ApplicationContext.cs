@@ -28,6 +28,8 @@ namespace Riddles.DAL
         public DbSet<Riddle> Riddles { get; set; }
 
         public DbSet<XrefGameSessionUser> XrefGameSessionUsers { get; set; }
+        
+        public DbSet<XrefGameSessionsRiddles> XrefGameSessionsRiddles { get; set; }
 
         public ApplicationContext(string connectionString) : base()
         {
@@ -54,6 +56,25 @@ namespace Riddles.DAL
                 .HasOne(x => x.User)
                 .WithMany(xgu => xgu.XrefGameSessionUsers)
                 .HasForeignKey(x => x.UserId);
+
+            modelBuilder.Entity<XrefGameSessionsRiddles>()
+                .HasOne(x => x.GameSession)
+                .WithMany(x => x.XrefGameSessionsRiddles)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<XrefGameSessionsRiddles>()
+                .HasKey(x => new { x.GameSessionId, x.RiddleId });
+
+            modelBuilder.Entity<XrefGameSessionsRiddles>()
+                .HasOne(x => x.GameSession)
+                .WithMany(xgr => xgr.XrefGameSessionsRiddles)
+                .HasForeignKey(x => x.GameSessionId);
+
+            modelBuilder.Entity<XrefGameSessionsRiddles>()
+                .HasOne(x => x.Riddle)
+                .WithMany(xgr => xgr.XrefGameSessionsRiddles)
+                .HasForeignKey(x => x.RiddleId);
         }
     }
 }

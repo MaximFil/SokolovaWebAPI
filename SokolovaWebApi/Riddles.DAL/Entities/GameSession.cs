@@ -13,7 +13,6 @@ namespace Riddles.DAL.Entities
         public int LevelId { get; set; }
         public Level Level { get; set; }
 
-        public List<XrefGameSessionUser> XrefGameSessionUsers { get; set; }
 
         public DateTime StartedDate { get; set; }
 
@@ -25,11 +24,16 @@ namespace Riddles.DAL.Entities
 
         public List<GameSessionAnswerHistory> GameSessionAnswerHistories { get; set; }
 
+        public List<XrefGameSessionUser> XrefGameSessionUsers { get; set; }
+
+        public List<XrefGameSessionsRiddles> XrefGameSessionsRiddles { get; set; }
+
         public GameSession()
         {
             GameSessionAnswerHistories = new List<GameSessionAnswerHistory>();
             GameSessionUseHintHistories = new List<GameSessionUseHintHistory>();
             XrefGameSessionUsers = new List<XrefGameSessionUser>();
+            XrefGameSessionsRiddles = new List<XrefGameSessionsRiddles>();
         }
     }
 }

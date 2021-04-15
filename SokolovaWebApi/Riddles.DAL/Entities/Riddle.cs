@@ -21,10 +21,13 @@ namespace Riddles.DAL.Entities
 
         public List<GameSessionAnswerHistory> GameSessionAnswerHistories { get; set; }
 
+        public List<XrefGameSessionsRiddles> XrefGameSessionsRiddles { get; set; }
+
         public Riddle()
         {
             GameSessionAnswerHistories = new List<GameSessionAnswerHistory>();
             GameSessionUseHintHistories = new List<GameSessionUseHintHistory>();
+            XrefGameSessionsRiddles = new List<XrefGameSessionsRiddles>();
         }
     }
 }

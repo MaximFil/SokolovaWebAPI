@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Riddles.Service.ResponseModels
 {
@@ -21,7 +22,13 @@ namespace Riddles.Service.ResponseModels
             this.Message = message;
             if (jsonData != null)
             {
-                this.Json = JsonSerializer.Serialize(jsonData);
+                var options = new JsonSerializerOptions()
+                {
+                    MaxDepth = 1000,
+                    ReferenceHandler = ReferenceHandler.Preserve
+                };
+
+                this.Json = JsonSerializer.Serialize(jsonData, options);
             }
         }
     }
