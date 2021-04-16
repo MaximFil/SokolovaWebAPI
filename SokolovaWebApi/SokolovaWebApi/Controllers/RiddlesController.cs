@@ -20,10 +20,17 @@ namespace SokolovaWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("getriddlesbylevel/{level}/{number}")]
-        public List<Riddle> GetRiddlesByLevel(string level, int number)
+        [Route("getriddlesbygamesessionid/{gameSessionId}")]
+        public List<Riddle> GetRiddlesByGameSessionId(int gameSessionId)
         {
-            return riddlesService.GetRiddlesByLevel(level, number);
+            return riddlesService.GetRiddlesByGameSessionId(gameSessionId);
         }
+
+        //[HttpGet]
+        //[Route("getriddlesbylevel/{level}/{number}")]
+        //public List<Riddle> GetRiddlesByLevel(string level, int number)
+        //{
+        //    return riddlesService.GetRiddlesByLevel(level, number);
+        //}
     }
 }

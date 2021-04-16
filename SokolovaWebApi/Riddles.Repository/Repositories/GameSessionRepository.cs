@@ -17,7 +17,7 @@ namespace Riddles.Repository.Repositories
             this.context = new ApplicationContext(ConnectionStringHelper.GetConnectionStringByName(ConnectionType.TestDB));
         }
 
-        public GameSession AddGameSession(GameSession gameSession, int firstUserId, int secondUserId)
+        public GameSession AddGameSession(GameSession gameSession, int firstUserId, int secondUserId, List<int> riddleIds)
         {
             try
             {
@@ -28,6 +28,10 @@ namespace Riddles.Repository.Repositories
                 {
                     context.XrefGameSessionUsers.Add(new XrefGameSessionUser() { GameSessionID = gameSession.Id, UserId = firstUserId, TotalTime = 0, Points = 10 });
                     context.XrefGameSessionUsers.Add(new XrefGameSessionUser() { GameSessionID = gameSession.Id, UserId = secondUserId, TotalTime = 0, Points = 10 });
+                    foreach(var id in riddleIds)
+                    {
+                        context.XrefGameSessionsRiddles.Add(new XrefGameSessionsRiddles { GameSessionId = gameSession.Id, RiddleId = id });
+                    }
                     context.SaveChanges();
                     return gameSession;
                 }

@@ -17,9 +17,18 @@ namespace Riddles.Service.Services
             riddlesRepository = new RiddlesRepository();
         }
 
-        public List<Riddle> GetRiddlesByLevel(string level, int number)
+        public List<Riddle> GetRiddlesByLevel(int levelId, int count)
         {
-            return riddlesRepository.GetRiddlesByLevel(level).OrderBy(r => Guid.NewGuid()).Take(number).ToList();
+            return riddlesRepository
+                .GetRiddlesByLevel(levelId)
+                .OrderBy(r => Guid.NewGuid())
+                .Take(count)
+                .ToList();
+        }
+
+        public List<Riddle> GetRiddlesByGameSessionId(int gameSessionId)
+        {
+            return riddlesRepository.GetRiddlesByGameSessionId(gameSessionId);
         }
     }
 }

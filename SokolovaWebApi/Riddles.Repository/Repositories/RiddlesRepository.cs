@@ -23,11 +23,21 @@ namespace Riddles.Repository.Repositories
             return context.Riddles;
         }
 
-        public List<Riddle> GetRiddlesByLevel(string level)
+        public List<Riddle> GetRiddlesByLevel(int levelId)
         {
-            return GetRiddles().Include(r => r.Level)
-                .AsEnumerable()
-                .Where(r => string.Equals(level, r.Level.LevelName, StringComparison.InvariantCultureIgnoreCase))
+            return GetRiddles()
+                .Where(r => r.LevelId == levelId)
+                .ToList();
+        }
+
+        public List<Riddle> GetRiddlesByGameSessionId(int gameSessionId)
+        {
+            var riddleIds = context.XrefGameSessionsRiddles
+                .Where(x => x.GameSessionId == gameSessionId)
+                .Select(x => x.RiddleId)
+                .ToHashSet();
+            return GetRiddles()
+                .Where(r => riddleIds.Any(i => i == r.Id))
                 .ToList();
         }
     }

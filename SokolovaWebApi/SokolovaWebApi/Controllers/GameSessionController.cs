@@ -26,13 +26,13 @@ namespace SokolovaWebApi.Controllers
         }
 
         [HttpPost]
-        [Route("creategamesession/{firstUserId}/{secondUserId}")]
-        public ApiResponse CreateGameSession([FromBody]GameSession gameSession, int firstUserId, int secondUserId)
+        [Route("creategamesession/{firstUserId}/{secondUserId}/{riddlesCount}")]
+        public ApiResponse CreateGameSession([FromBody]GameSession gameSession, int firstUserId, int secondUserId, int riddlesCount)
         {
             ApiResponse apiResponse;
             try
             {
-                apiResponse = gameSessionService.CreateGameSession(gameSession, firstUserId, secondUserId);
+                apiResponse = gameSessionService.CreateGameSession(gameSession, firstUserId, secondUserId, riddlesCount);
             }
             catch(Exception ex)
             {
