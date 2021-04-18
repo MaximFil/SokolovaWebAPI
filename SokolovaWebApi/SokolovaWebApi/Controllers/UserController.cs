@@ -90,9 +90,9 @@ namespace SokolovaWebApi.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("ChangeIsPlayingOfUser/{userId}")]
-        public bool ChangeIsPlayingOfUser(int userId, [FromBody]bool isPlaying)
+        public bool ChangeIsPlayingOfUser([FromBody]bool isPlaying, int userId)
         {
             try
             {

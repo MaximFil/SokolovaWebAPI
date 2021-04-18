@@ -47,6 +47,7 @@ namespace SokolovaWebApi.SignalR
             if(userConfigure != null)
             {
                 userService.ChangeActivityByUserName(userConfigure.UserName, false);
+                userService.ChangeIsPlayingOfUser(userService.GetUserIdByName(userConfigure.UserName), false);
                 UserHubConfigure.UserConnections.Remove(userConfigure);
             }
             
@@ -75,6 +76,17 @@ namespace SokolovaWebApi.SignalR
             }
 
             await Clients.Client(connectionId).SendAsync("AcceptInvite", accept);
+        }
+
+        public async void StartGame(string userName, int gameSessionId)
+        {
+            var connectionId = UserHubConfigure.UserConnections.FirstOrDefault(u => string.Equals(u.UserName, userName))?.ConnectionId;
+            if (string.IsNullOrWhiteSpace(connectionId))
+            {
+                throw new Exception("Не найден коннекшен данного пользователя!");
+            }
+
+            await Clients.Client(connectionId).SendAsync("StartGame", gameSessionId);
         }
     }
 }

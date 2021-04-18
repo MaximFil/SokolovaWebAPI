@@ -17,6 +17,11 @@ namespace Riddles.Repository.Repositories
             this.context = new ApplicationContext(ConnectionStringHelper.GetConnectionStringByName(ConnectionType.TestDB));
         }
 
+        public IQueryable<GameSession> GetGameSessions()
+        {
+            return context.GameSessions.AsQueryable();
+        }
+
         public GameSession AddGameSession(GameSession gameSession, int firstUserId, int secondUserId, List<int> riddleIds)
         {
             try

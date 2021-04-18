@@ -19,6 +19,9 @@ namespace Riddles.DAL.Entities
         public int? RiddleId { get; set; }
         public Riddle Riddle { get; set; }
 
+        public int? HintId { get; set; }
+        public Hint Hint { get; set; }
+
         public string OldAnswerValue { get; set; }
 
         public string NewAnswerValue { get; set; }

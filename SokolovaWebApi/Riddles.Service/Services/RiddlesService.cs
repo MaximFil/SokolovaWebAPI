@@ -23,6 +23,7 @@ namespace Riddles.Service.Services
                 .GetRiddlesByLevel(levelId)
                 .OrderBy(r => Guid.NewGuid())
                 .Take(count)
+                .OrderBy(r => r.Id)
                 .ToList();
         }
 

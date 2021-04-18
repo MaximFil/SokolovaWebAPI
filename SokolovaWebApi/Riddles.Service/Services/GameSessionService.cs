@@ -37,5 +37,12 @@ namespace Riddles.Service.Services
                 throw;
             }
         }
+
+        public GameSession GetGameSessionById(int gameSessionId)
+        {
+            return gameSessionRepository
+                .GetGameSessions()
+                .FirstOrDefault(g => g.Id == gameSessionId);
+        }
     }
 }

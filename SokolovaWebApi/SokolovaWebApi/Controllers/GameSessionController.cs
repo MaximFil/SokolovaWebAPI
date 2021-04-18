@@ -41,5 +41,19 @@ namespace SokolovaWebApi.Controllers
 
             return apiResponse;
         }
+
+        [HttpGet]
+        [Route("getgamesessionbyid/{gameSessionId}")]
+        public GameSession GetGameSessionById(int gameSessionId)
+        {
+            try
+            {
+                return gameSessionService.GetGameSessionById(gameSessionId);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

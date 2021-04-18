@@ -13,5 +13,12 @@ namespace Riddles.DAL.Entities
         public string Name { get; set; }
 
         public int Cost { get; set; }
+
+        public List<GameSessionUseHintHistory> GameSessionUseHintHistories { get; set; }
+
+        public Hint()
+        {
+            GameSessionUseHintHistories = new List<GameSessionUseHintHistory>();
+        }
     }
 }
