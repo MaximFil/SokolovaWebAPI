@@ -21,7 +21,7 @@ namespace Riddles.Service.Services
         {
             try
             {
-                var levels = levelRepository.GetDictionaryOfLevels();
+                var levels = levelRepository.GetLevels().ToList();
                 return new ApiResponse(true, "Success", levels);
             }
             catch(Exception ex)

@@ -10,30 +10,29 @@ namespace SokolovaWebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class LevelController : Controller
+    public class HintController : Controller
     {
-        private readonly LevelService levelService;
+        private readonly HintService hintService;
 
-        public LevelController()
+        public HintController()
         {
-            this.levelService = new LevelService();
+            this.hintService = new HintService();
         }
-
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
-        [Route("getlevels")]
-        public ApiResponse GetLevels()
+        [Route("gethints")]
+        public ApiResponse GetHints()
         {
             ApiResponse apiResponse;
             try
             {
-                apiResponse = levelService.GetLevels();
+                apiResponse = hintService.GetHints();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 apiResponse = new ApiResponse(false, ex.Message);
             }

@@ -38,11 +38,64 @@ namespace Riddles.Service.Services
             }
         }
 
+        public void CompleteGameSession(int gameSessionId)
+        {
+            try
+            {
+                gameSessionRepository.CompleteGameSession(gameSessionId);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
         public GameSession GetGameSessionById(int gameSessionId)
         {
             return gameSessionRepository
                 .GetGameSessions()
                 .FirstOrDefault(g => g.Id == gameSessionId);
+        }
+
+        public void CompleteGameSessionForUser(XrefGameSessionUser gameSessionUser)
+        {
+            try
+            {
+                gameSessionRepository.CompleteGameSessionForUser(gameSessionUser);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public XrefGameSessionUser GetCompleteGameSessionUser(int gameSessionId, string userName)
+        {
+            try
+            {
+                var userId = userService.GetUserIdByName(userName);
+
+                return gameSessionRepository.GetGameSessionUser(gameSessionId, userId);
+
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void SurrenderGameSessionUser(int gameSessionId, string userName, bool surrendered = true)
+        {
+            try
+            {
+                var userId = userService.GetUserIdByName(userName);
+
+                gameSessionRepository.SurrenderedGameSessionUser(gameSessionId, userId, surrendered);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

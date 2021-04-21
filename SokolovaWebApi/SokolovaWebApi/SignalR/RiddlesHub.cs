@@ -54,7 +54,7 @@ namespace SokolovaWebApi.SignalR
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task SendInvite(string userName)
+        public async Task SendInvite(string userName, string levelName)
         {
             var guestConnectionId = UserHubConfigure.UserConnections.FirstOrDefault(u => string.Equals(u.UserName, userName))?.ConnectionId;
             var hostUserName = UserHubConfigure.UserConnections.FirstOrDefault(u => string.Equals(u.ConnectionId, Context.ConnectionId))?.UserName ?? string.Empty;
@@ -63,7 +63,7 @@ namespace SokolovaWebApi.SignalR
                 throw new Exception("Не найден коннекшен данного пользователя!");
             }
 
-            await Clients.Client(guestConnectionId).SendAsync("SendInvite", hostUserName);
+            await Clients.Client(guestConnectionId).SendAsync("SendInvite", hostUserName, levelName);
             return;
         }
 
@@ -87,6 +87,18 @@ namespace SokolovaWebApi.SignalR
             }
 
             await Clients.Client(connectionId).SendAsync("StartGame", gameSessionId);
+        }
+
+        //сдаться
+        public async void Surrender(string userName, string rivalName)
+        {
+            var rivalConnectionId = UserHubConfigure.UserConnections.FirstOrDefault(u => string.Equals(u.UserName, rivalName))?.ConnectionId;
+            if (string.IsNullOrWhiteSpace(rivalConnectionId))
+            {
+                throw new Exception("Не найден коннекшен данного пользователя!");
+            }
+
+            await Clients.Client(rivalConnectionId).SendAsync("Surrender", userName);
         }
     }
 }
