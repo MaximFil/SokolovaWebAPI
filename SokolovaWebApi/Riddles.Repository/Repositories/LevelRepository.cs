@@ -13,7 +13,7 @@ namespace Riddles.Repository.Repositories
         private readonly ApplicationContext context;
         public LevelRepository()
         {
-            this.context = new ApplicationContext(ConnectionStringHelper.GetConnectionStringByName(ConnectionType.TestDB));
+            this.context = new ApplicationContext(ConnectionStringHelper.GetConnectionStringByName(ConnectionType.RiddlesDB));
         }
 
         public IQueryable<Level> GetLevels()

@@ -14,6 +14,8 @@ namespace Riddles.DAL.Entities
         [Required]
         public string LevelName { get; set; }
 
+        public string RussianName { get; set; }
+
         public int LevelTime { get; set; }
 
         public List<Riddle> Riddles { get; set; }

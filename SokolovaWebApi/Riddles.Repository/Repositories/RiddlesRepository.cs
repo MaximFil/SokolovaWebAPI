@@ -15,7 +15,7 @@ namespace Riddles.Repository.Repositories
 
         public RiddlesRepository()
         {
-            this.context = new ApplicationContext(ConnectionStringHelper.GetConnectionStringByName(ConnectionType.TestDB));
+            this.context = new ApplicationContext(ConnectionStringHelper.GetConnectionStringByName(ConnectionType.RiddlesDB));
         }
 
         public IQueryable<Riddle> GetRiddles()

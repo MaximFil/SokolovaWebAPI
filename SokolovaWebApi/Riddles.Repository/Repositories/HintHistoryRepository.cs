@@ -14,7 +14,7 @@ namespace Riddles.Repository.Repositories
         
         public HintHistoryRepository()
         {
-            this.context = new ApplicationContext(ConnectionStringHelper.GetConnectionStringByName(ConnectionType.TestDB));
+            this.context = new ApplicationContext(ConnectionStringHelper.GetConnectionStringByName(ConnectionType.RiddlesDB));
         }
 
         public void CreateHintHIstory(GameSessionUseHintHistory hintHistory, string hintName)

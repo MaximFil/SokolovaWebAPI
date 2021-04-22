@@ -14,7 +14,7 @@ namespace Riddles.Repository.Repositories
 
         public HintRepository()
         {
-            this.context = new ApplicationContext(ConnectionStringHelper.GetConnectionStringByName(ConnectionType.TestDB));
+            this.context = new ApplicationContext(ConnectionStringHelper.GetConnectionStringByName(ConnectionType.RiddlesDB));
         }
 
         public IQueryable<Hint> GetHints()
