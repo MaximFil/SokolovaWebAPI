@@ -130,9 +130,53 @@ namespace Riddles.Repository.Repositories
                 }
 
                 gameSessionUser.Surrendered = true;
+                gameSessionUser.Result = "Surrendered";
                 context.SaveChanges();
             }
             catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void AddResultToGameSessionUser(int gameSessionId, int userId, string result)
+        {
+            try
+            {
+                var gameSessionUser = context.XrefGameSessionUsers
+                    .FirstOrDefault(g => g.GameSessionID == gameSessionId && g.UserId == userId);
+
+                if (gameSessionUser == null)
+                {
+                    throw new NullReferenceException("Missing game session for current User");
+                }
+
+                gameSessionUser.Result = result;
+                context.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void ExitGameSessionUser(int gameSessionId, int userId)
+        {
+            try
+            {
+                var gameSessionUser = context.XrefGameSessionUsers
+                    .FirstOrDefault(g => g.GameSessionID == gameSessionId && g.UserId == userId);
+
+                if (gameSessionUser == null)
+                {
+                    throw new NullReferenceException("Missing game session for current User");
+                }
+
+                gameSessionUser.Finished = true;
+                gameSessionUser.Result = "Exit";
+                context.SaveChanges();
+            }
+            catch (Exception ex)
             {
                 throw;
             }

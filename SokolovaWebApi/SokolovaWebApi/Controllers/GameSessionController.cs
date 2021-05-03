@@ -111,5 +111,33 @@ namespace SokolovaWebApi.Controllers
                 throw;
             }
         }
+
+        [HttpPost]
+        [Route("addresulttogamesessionuser/{gameSessionId}/{userId}")]
+        public void AddResultToGameSessionUser([FromBody]string result, int gameSessionId, int userId)
+        {
+            try
+            {
+                gameSessionService.AddResultToGameSessionUser(gameSessionId, userId, result);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [Route("exitgamesessionuser/{gameSessionId}")]
+        public void ExitGameSessionUser([FromBody]int userId, int gameSessionId)
+        {
+            try
+            {
+                gameSessionService.ExitGameSessionUser(gameSessionId, userId);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

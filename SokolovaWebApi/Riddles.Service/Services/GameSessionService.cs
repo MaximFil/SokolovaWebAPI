@@ -97,5 +97,29 @@ namespace Riddles.Service.Services
                 throw;
             }
         }
+
+        public void AddResultToGameSessionUser(int gameSessionId, int userId, string result)
+        {
+            try
+            {
+                gameSessionRepository.AddResultToGameSessionUser(gameSessionId, userId, result);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void ExitGameSessionUser(int gameSessionId, int userId)
+        {
+            try
+            {
+                gameSessionRepository.ExitGameSessionUser(gameSessionId, userId);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
