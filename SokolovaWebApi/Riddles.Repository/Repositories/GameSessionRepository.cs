@@ -1,4 +1,5 @@
-﻿using Riddles.DAL;
+﻿using Microsoft.EntityFrameworkCore;
+using Riddles.DAL;
 using Riddles.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Riddles.Repository.Repositories
 
         public IQueryable<GameSession> GetGameSessions()
         {
-            return context.GameSessions.AsQueryable();
+            return context.GameSessions;
         }
 
         public GameSession AddGameSession(GameSession gameSession, int firstUserId, int secondUserId, List<int> riddleIds)
@@ -72,6 +73,11 @@ namespace Riddles.Repository.Repositories
             {
                 throw;
             }
+        }
+
+        public IQueryable<XrefGameSessionUser> GetGameSessionForUser()
+        {
+            return context.XrefGameSessionUsers;
         }
 
         public void CompleteGameSessionForUser(XrefGameSessionUser gameSessionUser)

@@ -145,5 +145,33 @@ namespace Riddles.Repository.Repositories
                 throw;
             }
         }
+
+        public bool HaveUnFinishedGameSession(string userName)
+        {
+            try
+            {
+                var user = GetUsers().FirstOrDefault(u => string.Equals(u.Name, userName));
+                if (user != null)
+                {
+                    var isntFinishedGameSession = context.XrefGameSessionUsers.FirstOrDefault(x => x.UserId == user.Id && !x.Finished);
+                    if(isntFinishedGameSession == null && user.IsActive)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    throw new Exception("Пользователь с таким именем не найден!");
+                }
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

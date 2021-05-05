@@ -126,5 +126,17 @@ namespace Riddles.Service.Services
                 throw;
             }
         }
+
+        public bool HaveUnFinishedGameSession(string userName)
+        {
+            try
+            {
+                return userRepository.HaveUnFinishedGameSession(userName);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

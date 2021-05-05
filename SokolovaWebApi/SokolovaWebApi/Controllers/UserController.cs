@@ -121,5 +121,19 @@ namespace SokolovaWebApi.Controllers
 
             return userNames;
         }
+
+        [HttpGet]
+        [Route("HaveUnFinishedGameSession/{rivalName}")]
+        public bool HaveUnFinishedGameSession(string rivalName)
+        {
+            try
+            {
+                return userService.HaveUnFinishedGameSession(rivalName);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

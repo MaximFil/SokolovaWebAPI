@@ -112,5 +112,16 @@ namespace SokolovaWebApi.SignalR
 
             await Clients.Client(rivalConnectionId).SendAsync("RivalFinished");
         }
+
+        public async void RivalExitedGame(string rivalName)
+        {
+            var rivalConnectionId = UserHubConfigure.UserConnections.FirstOrDefault(u => string.Equals(u.UserName, rivalName))?.ConnectionId;
+            if (string.IsNullOrWhiteSpace(rivalConnectionId))
+            {
+                throw new Exception("Не найден коннекшен данного пользователя!");
+            }
+
+            await Clients.Client(rivalConnectionId).SendAsync("RivalExitedGame");
+        }
     }
 }
