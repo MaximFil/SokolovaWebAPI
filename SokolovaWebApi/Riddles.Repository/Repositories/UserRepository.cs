@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Riddles.DAL;
 using Riddles.DAL.Entities;
 
@@ -153,7 +154,10 @@ namespace Riddles.Repository.Repositories
                 var user = GetUsers().FirstOrDefault(u => string.Equals(u.Name, userName));
                 if (user != null)
                 {
-                    var isntFinishedGameSession = context.XrefGameSessionUsers.FirstOrDefault(x => x.UserId == user.Id && !x.Finished);
+                    var isntFinishedGameSession = context.GameSessions
+                        .Include(g => g.XrefGameSessionUsers)
+                        .FirstOrDefault(x => x.XrefGameSessionUsers.FirstOrDefault( g => g.UserId == user.Id && !g.Finished) == null && x.StartedDate > DateTime.Now.AddMinutes(-7));
+                    
                     if(isntFinishedGameSession == null && user.IsActive)
                     {
                         return false;

@@ -24,12 +24,13 @@ namespace Riddles.Service.Services
             gameSessionRepository = new GameSessionRepository();
         }
 
-        public ApiResponse CreateGameSession(GameSession gameSession, int firstUserId, int secondUserId, int riddlesCount = 5)
+        public ApiResponse CreateGameSession(GameSession gameSession, int firstUserId, string rivalUserName, int riddlesCount = 5)
         {
             try
             {
                 var riddleIds = riddlesService.GetRiddlesByLevel(gameSession.LevelId, riddlesCount).Select(r => r.Id).ToList();
-                var currentGameSession = gameSessionRepository.AddGameSession(gameSession, firstUserId, secondUserId, riddleIds);
+                var rivalUserId = userService.GetUserIdByName(rivalUserName);
+                var currentGameSession = gameSessionRepository.AddGameSession(gameSession, firstUserId, rivalUserId, riddleIds);
                 return new ApiResponse(true, "Success", currentGameSession);
             }
             catch(Exception ex)

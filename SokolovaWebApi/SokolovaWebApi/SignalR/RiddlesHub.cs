@@ -24,8 +24,6 @@ namespace SokolovaWebApi.SignalR
         {
             try
             {
-                //Context.GetHttpContext().User.AddIdentity(new GenericIdentity(userName));
-                //userService.UpdateConnectionId(userName, Context.ConnectionId);
                 UserHubConfigure.UserConnections.Add(new UserConnection(userName, Context.ConnectionId));
                 userService.ChangeActivityByUserName(userName, true);
                 await Clients.All.SendAsync("Recieve", message);
@@ -54,7 +52,7 @@ namespace SokolovaWebApi.SignalR
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task SendInvite(string userName, string levelName)
+        public async Task SendInvite(string userName, string levelName, string message)
         {
             var guestConnectionId = UserHubConfigure.UserConnections.FirstOrDefault(u => string.Equals(u.UserName, userName))?.ConnectionId;
             var hostUserName = UserHubConfigure.UserConnections.FirstOrDefault(u => string.Equals(u.ConnectionId, Context.ConnectionId))?.UserName ?? string.Empty;
@@ -63,7 +61,7 @@ namespace SokolovaWebApi.SignalR
                 throw new Exception("Не найден коннекшен данного пользователя!");
             }
 
-            await Clients.Client(guestConnectionId).SendAsync("SendInvite", hostUserName, levelName);
+            await Clients.Client(guestConnectionId).SendAsync("SendInvite", hostUserName, levelName, message);
             return;
         }
 
