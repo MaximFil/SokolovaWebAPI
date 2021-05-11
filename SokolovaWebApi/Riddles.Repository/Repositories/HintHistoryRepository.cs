@@ -17,20 +17,14 @@ namespace Riddles.Repository.Repositories
             this.context = new ApplicationContext(ConnectionStringHelper.GetConnectionStringByName(ConnectionType.RiddlesDB));
         }
 
-        public void CreateHintHIstory(GameSessionUseHintHistory hintHistory, string hintName)
+        public void CreateHintHIstory(GameSessionUseHintHistory hintHistory)
         {
             try
             {
-                var hintId = context.Hints.FirstOrDefault(h => string.Equals(h.Name, hintName, StringComparison.InvariantCultureIgnoreCase))?.Id;
-                if (hintId.HasValue)
+                if(hintHistory != null)
                 {
-                    hintHistory.HintId = hintId;
                     context.GameSessionUseHintHistories.Add(hintHistory);
                     context.SaveChanges();
-                }
-                else
-                {
-                    throw new NullReferenceException();
                 }
             }
             catch(Exception ex)

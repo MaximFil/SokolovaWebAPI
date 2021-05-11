@@ -26,7 +26,7 @@ namespace Riddles.Service.Services
                 return gameSessionRepository.GetGameSessionForUser()
                     .Include(g => g.GameSession.Level)
                     .Include(g => g.User)
-                    .Where(g => string.Equals(g.GameSession.Level.LevelName.ToLower(), levelName.ToLower()) && g.Finished)
+                    .Where(g => string.Equals(g.GameSession.Level.LevelName.ToLower(), levelName.ToLower()) && g.Finished && string.IsNullOrWhiteSpace(g.TotalTime) == false && g.Points > 39)
                     .ToList()
                     .Select(g => new ResponseModels.RecordModel
                     {

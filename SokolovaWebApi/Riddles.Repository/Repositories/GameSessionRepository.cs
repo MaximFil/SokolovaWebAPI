@@ -92,6 +92,11 @@ namespace Riddles.Repository.Repositories
                     throw new NullReferenceException("Missing game session for current User");
                 }
 
+                if(gameSession.Finished == true)
+                {
+                    return;
+                }
+
                 gameSession.TotalTime = gameSessionUser.TotalTime;
                 gameSession.Points = gameSessionUser.Points;
                 gameSession.Finished = gameSessionUser.Finished;

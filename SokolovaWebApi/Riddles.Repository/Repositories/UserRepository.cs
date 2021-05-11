@@ -154,17 +154,23 @@ namespace Riddles.Repository.Repositories
                 var user = GetUsers().FirstOrDefault(u => string.Equals(u.Name, userName));
                 if (user != null)
                 {
-                    var isntFinishedGameSession = context.GameSessions
-                        .Include(g => g.XrefGameSessionUsers)
-                        .FirstOrDefault(x => x.XrefGameSessionUsers.FirstOrDefault( g => g.UserId == user.Id && !g.Finished) == null && x.StartedDate > DateTime.Now.AddMinutes(-7));
-                    
-                    if(isntFinishedGameSession == null && user.IsActive)
+                    var gameSessionUser = context.XrefGameSessionUsers.OrderByDescending(x => x.GameSessionID).FirstOrDefault(u => u.UserId == user.Id && u.Finished == false);
+                    if (gameSessionUser == null)
                     {
                         return false;
                     }
                     else
                     {
-                        return true;
+                        var dateNow = DateTime.Now.AddMinutes(-7);
+                        var gameSession = context.GameSessions.FirstOrDefault(g => g.IsCompleted == false && g.Id == gameSessionUser.GameSessionID && g.StartedDate < dateNow);
+                        if(gameSession == null)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                 }
                 else

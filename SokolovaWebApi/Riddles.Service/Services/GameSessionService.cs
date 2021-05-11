@@ -116,6 +116,7 @@ namespace Riddles.Service.Services
             try
             {
                 gameSessionRepository.ExitGameSessionUser(gameSessionId, userId);
+                CompleteGameSession(gameSessionId);
             }
             catch(Exception ex)
             {

@@ -17,11 +17,11 @@ namespace Riddles.Service.Services
             hintHistoryRepository = new HintHistoryRepository();
         }
 
-        public void CreateHintHistory(GameSessionUseHintHistory hintHistory, string hintName)
+        public void CreateHintHistory(GameSessionUseHintHistory hintHistory)
         {
             try
             {
-                hintHistoryRepository.CreateHintHIstory(hintHistory, hintName);
+                hintHistoryRepository.CreateHintHIstory(hintHistory);
             }
             catch(Exception ex)
             {

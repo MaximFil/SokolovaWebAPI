@@ -25,12 +25,12 @@ namespace SokolovaWebApi.Controllers
         }
 
         [HttpPost]
-        [Route("createhinthistory/{levelName}")]
-        public ActionResult CreateHintHistory([FromBody]GameSessionUseHintHistory hintHistory, string levelName)
+        [Route("createhinthistory")]
+        public ActionResult CreateHintHistory([FromBody]GameSessionUseHintHistory hintHistory)
         {
             try
             {
-                hintHistoryService.CreateHintHistory(hintHistory, levelName);
+                hintHistoryService.CreateHintHistory(hintHistory);
                 return new JsonResult("Success");
             }
             catch(Exception ex)
